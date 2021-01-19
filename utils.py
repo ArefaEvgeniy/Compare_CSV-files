@@ -142,7 +142,7 @@ def load_data(path):
 def convert_csv_to_dict(csv_data, name_key_field, list_field):
     """
     Convert data from csv-file to the dictionary.
-    Return result of this action and error or None
+    Return result of this action and error or None as tuple
     """
     result = {}
     error = None
@@ -183,7 +183,7 @@ def create_small_dicts(dicts):
         count = 0
 
         for key in keys:
-            if count > const.LEN_SMALL_DICTS:
+            if count >= const.LEN_SMALL_DICTS:
                 break
 
             result[index].update({key: dict_item[key]})
@@ -227,14 +227,14 @@ def prepare_columns(settings, key_field):
         else:
             result = settings[const.FIELDS][1][0:]
 
-        if settings[const.DIFFERENT_FIELDS]:
-            result.insert(1, const.DIFFERENT_FIELDS)
-
         if key_field not in result:
             result.insert(0, key_field)
         elif result.index(key_field) != 0:
             result.pop(result.index(key_field))
             result.insert(0, key_field)
+
+        if settings[const.DIFFERENT_FIELDS]:
+            result.insert(1, const.DIFFERENT_FIELDS)
 
     return result
 
